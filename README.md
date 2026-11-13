@@ -157,3 +157,26 @@ python3.11 -m venv .venv
 .venv/bin/python -m pip install uv==0.8.22
 UV_PROJECT_ENVIRONMENT="$PWD/.venv" .venv/bin/uv sync --project backend --locked --all-extras --inexact
 ```
+
+### Original Polyvore metadata and Re-PolyVore images
+
+With the original split JSONs under `data/raw/polyvore_metadata` and the nested
+`Re-PolyVore` archive under `data/raw/polyvore_images`:
+
+```sh
+.venv/bin/python -m pipeline.prepare_original_polyvore \
+  data/raw/polyvore_metadata data/raw/polyvore_images \
+  data/processed/original-polyvore.json data/reports/polyvore-compatibility.json
+HF_HOME="$PWD/data/raw/hf-cache" .venv/bin/python -m pipeline.extract_embeddings \
+  data/processed/original-polyvore.json data/raw/polyvore_images data/embeddings
+.venv/bin/python -m pipeline.run_evaluation data/processed/original-polyvore.json \
+  "$SNAPSHOT_DIR" data/reports/polyvore-test.json --split test
+.venv/bin/python -m scripts.plot_original_polyvore data/reports/polyvore-test.json \
+  "$SNAPSHOT_DIR" data/raw/polyvore_images data/reports/polyvore-test
+```
+
+The join uses the original set ID and item index. It preserves split membership,
+keeps groups with at least two valid images, and records how many items the
+original outfit had. This local join has a different candidate universe from
+the gated Vasileva release. Its split is outfit-disjoint; the same product
+can occur under different outfit-scoped IDs.

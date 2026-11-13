@@ -110,3 +110,16 @@
 - Linux CI now installs its application, research and test dependencies from the same lock used by local setup and Docker. The existing locked Docker workflow was in progress at the last check.
 
 - Completed and verified on Linux. GitHub Actions run 43361298694 passed the locked Python/PostgreSQL checks, frontend build, and production Compose smoke. The smoke uses a synthetic catalog. Public deployment awaits a target host and HTTPS details. Real research results await authorized Polyvore files.
+
+### Real-data run
+
+- Located both downloads; 21 GiB available before copying approximately 3.6 GiB.
+
+- Preliminary filename audit found at most 1,373 complete outfits, below the requested sample size. The join will sample surviving groups with at least two verified images, preserve original outfit/split membership, and record original item counts and per-item exclusions. This is an outfit-disjoint, transductive local experiment on the available overlap, with potential coverage bias.
+
+- Real join audit: 76,543 of 142,480 metadata items matched valid JPEGs (53.72%); 65,937 had no matching filename. Zero corrupt or ambiguous matches were found. The seed-42 sample contains 3,000 train, 500 validation, and 500 test outfits, with 15,671 items and 310 complete outfits. Report: data/reports/polyvore-compatibility.json. MPS embedding extraction is in progress.
+- Local verification: Ruff passed and 19 tests passed; the PostgreSQL test was skipped because this run had no dedicated database URL.
+
+- Both copies verified against Downloads using a recursive rsync checksum dry run with no differences. The original files remain in Downloads.
+
+- Completed real evaluation on Apple M3 MPS with pinned CLIP. Cached 15,671 embeddings. Validation: 2,908 eligible and 3,096 excluded, Recall@3 0.00653370, MRR@3 0.00424117, random mean Recall@3 0.00050206. Test: 3,104 eligible and 3,404 excluded, Recall@3 0.00225515, MRR@3 0.00155713, random mean Recall@3 0.00048003 (population SD 0.00040108). Produced both splits' charts and recommendation panels under data/reports. Public deployment deferred.

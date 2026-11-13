@@ -25,6 +25,7 @@ def evaluate(catalog, manifest, split):
     clip_ranks = []
     category_ranks = defaultdict(list)
     cases = []
+    clip_by_query = {}
     reasons = Counter()
     outfits = [outfit for outfit in manifest["outfits"] if outfit["split"] == split]
     catalog_items = catalog.items
@@ -46,7 +47,9 @@ def evaluate(catalog, manifest, split):
                 case["exclusion"] = reason
                 reasons[reason] += 1
                 continue
-            matches, _ = catalog.recommend_by_item(query_id)
+            if query_id not in clip_by_query:
+                clip_by_query[query_id], _ = catalog.recommend_by_item(query_id)
+            matches = clip_by_query[query_id]
             rank = hidden_rank(matches, hidden_id)
             case.update(hidden_category=hidden_category, clip_rank=rank,
                         recommendations=[match.item_id for match in matches])

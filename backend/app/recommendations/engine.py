@@ -104,7 +104,7 @@ class Catalog:
         warnings = []
         for slot in self.policy[category]:
             candidates = self.category_rows[slot]
-            if excluded is not None:
+            if excluded is not None and self.items[excluded]["category"] == slot:
                 candidates = candidates[candidates != excluded]
             if not candidates.size:
                 warnings.append(f"No eligible candidates for {slot}")

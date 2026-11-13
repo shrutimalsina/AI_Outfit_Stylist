@@ -2,11 +2,11 @@
 
 ## Abstract and research objective
 
-This project tests whether a pretrained CLIP vision encoder plus category-aware cosine retrieval can recover hidden clothing items from curated Polyvore outfits more often than a category-matched random baseline. Real experimental results are currently unavailable because the pinned dataset file requests returned HTTP 401.
+This project tests whether a pretrained CLIP vision encoder plus category-aware cosine retrieval can recover hidden clothing items from curated Polyvore outfits more often than a category-matched random baseline. The local original Polyvore and Re-PolyVore join supported a real held-out evaluation. CLIP recovered seven of 3,104 eligible test targets.
 
 ## Dataset and architecture
 
-The planned dataset is the authors' Polyvore Outfits release, revision `22cc0c748c293a598e1df561a76abe96273cb76a`. The sampling design targets 4,000 outfits across the official item-disjoint splits. Ingestion keeps complete outfits and records missing metadata and invalid images. The offline pipeline stores normalized NumPy embeddings and maps their rows to source items. PostgreSQL tracks snapshots and their item membership. FastAPI and the notebooks share the retrieval engine, and React calls the API.
+The experiment joins original Polyvore split metadata to local Re-PolyVore images by set ID and item index. Of 142,480 metadata items, 76,543 matched decodable JPEGs. The seed-42 sample retained 3,000 training, 500 validation and 500 test outfits with at least two verified images each. Only 310 sampled outfits were complete. The catalog contains 15,671 items across the original outfit-disjoint splits. The offline pipeline stores normalized NumPy embeddings and maps their rows to source items. PostgreSQL tracks snapshots and their item membership. FastAPI and the notebooks share the retrieval engine, and React calls the API.
 
 ## Methods
 
@@ -16,13 +16,17 @@ The [evaluation protocol](evaluation-protocol.md) describes the held-out design,
 
 ## Results and error analysis
 
-| Measure | Polyvore test result |
-| --- | --- |
-| CLIP Recall@1, Recall@3 and MRR@3 | Unavailable |
-| Random Recall@3 mean and standard deviation | Unavailable |
-| Difference in Recall@3 | Unavailable |
+| Split | Eligible | CLIP Recall@3 | CLIP MRR@3 | Random mean Recall@3 |
+| --- | ---: | ---: | ---: | ---: |
+| Validation | 2,908 | 0.6534% | 0.004241 | 0.0502% |
+| Test | 3,104 | 0.2255% | 0.001557 | 0.0480% |
 
-All four notebooks executed with synthetic demonstration data. CPU CLIP inference was verified separately. Fixture results validate the software workflow and provide no evidence for the research hypothesis. Once the dataset is accessible, inspect misses by target category, slot position, and catalog size.
+The test baseline population standard deviation was 0.0401 percentage points
+over 100 seeds. The test gap was 0.1775 percentage points. Absolute recovery
+was low, and validation recall exceeded test recall. Missing images may bias
+the retained subset, and outfit-level splits can still share products under
+different outfit-scoped identifiers. These results measure exact-item
+recovery in a transductive catalog.
 
 ## Limitations and future work
 
@@ -30,7 +34,7 @@ Fashion compatibility is subjective and multiple outfits can be valid. Exact-ite
 
 ## Conclusion
 
-The evaluation workflow can run on verified inputs. A real Polyvore run is required before drawing conclusions about CLIP versus random retrieval.
+CLIP recovered more held-out targets than the mean random baseline in this joined subset. The low absolute recovery and incomplete image coverage limit what the result says about general outfit quality.
 
 ## Fixture performance
 
