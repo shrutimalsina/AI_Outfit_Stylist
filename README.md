@@ -58,3 +58,14 @@ PY
 ```
 
 The engine selects one item per category in policy order and breaks equal cosine scores by lexicographic item ID. Scores measure visual similarity. Empty slots produce warnings, and later eligible slots can fill the result up to the requested limit.
+
+## Evaluate hidden-item recovery
+
+Run validation during development. Use `--split test` for final reporting after the policy is frozen.
+
+```sh
+.venv/bin/python -m pipeline.run_evaluation data/processed/manifest.json \
+  "$SNAPSHOT_DIR" data/reports/validation.json --split valid
+```
+
+The report includes per-case outcomes, exclusions, Recall@1, Recall@3, MRR@3, and a 100-seed category-matched random comparison. See [the evaluation protocol](docs/evaluation-protocol.md) for interpretation.

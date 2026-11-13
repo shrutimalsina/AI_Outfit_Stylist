@@ -33,3 +33,11 @@
 - Completed and verified. Added config/categories.yaml, the shared catalog reader and ranking engine, and five tests. Catalog loading checks both checksums, model revision, shape, dtype, row IDs and vector norms. Ranking uses policy order and lexicographic string IDs for ties, skips empty slots, and shares candidate selection with seeded random retrieval.
 - Verification: all 11 unit tests passed and git diff --check passed. Tests used synthetic artifacts. Real-data access remains blocked by the recorded HTTP 401.
 - Next: implement hidden-item case enumeration, Recall@1/3 and MRR@3, and comparison across 100 baseline seeds. Record exclusions and catalog/policy provenance in the evaluation report.
+
+### Phase 5 — hidden-item evaluation
+
+- In progress. Reverified the ranking checkpoint with 11 passing tests.
+
+- Completed and verified on fixtures. The evaluation enumerates ordered query/hidden pairs, checks split and eligibility, compares cosine retrieval to 100 seeded random runs, and records per-case outcomes, exclusions, category metrics and artifact provenance.
+- Verification: 13 unit tests passed, including known metrics and repeatable baseline results. CLI help and git diff --check passed. No real Polyvore metrics because the previously recorded dataset access blocker remains.
+- Next: create the academic notebooks using the shared modules, obtain the pinned dataset, then implement and verify the API and PostgreSQL integration.
