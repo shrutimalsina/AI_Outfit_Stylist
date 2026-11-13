@@ -19,3 +19,10 @@ schema at `/openapi.json`.
 similarity and image URL. Error responses contain an `error` object with
 `code` and `message`. The local database-free demo supports catalog browsing
 and recommendations. Readiness requires a registered PostgreSQL catalog.
+
+`GET /api/v1/catalog/samples` returns a small set of available catalog pieces.
+Both recommendation routes accept an optional `alternatives` integer (0–12,
+default 0). A nonzero value adds an object keyed by complementary category,
+with candidates ordered by descending cosine similarity and stable item ID
+ties. The initial recommendations retain their existing response shape when
+the option is omitted.

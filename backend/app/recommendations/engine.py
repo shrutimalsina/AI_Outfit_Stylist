@@ -91,6 +91,21 @@ class Catalog:
             self.matrix[row], self.items[row]["category"], query_id=item_id, top_k=top_k,
         )
 
+    def alternatives(self, embedding, primary, limit):
+        query = normalize(np.asarray(embedding)[None, :])[0]
+        ranked = {}
+        for match in primary:
+            candidates = self.category_rows[match.category]
+            candidates = candidates[candidates != self.rows[match.item_id]]
+            scores = self.matrix[candidates] @ query
+            order = np.argsort(-scores, kind="stable")[:limit]
+            ranked[match.category] = [
+                Match(self.items[candidates[index]]["id"], match.category, match.position,
+                      float(np.clip(scores[index], -1, 1)))
+                for index in order
+            ]
+        return ranked
+
     def random(self, category, rng, *, query_id=None, top_k=3):
         return self._select(category, query_id, top_k, rng=rng)
 

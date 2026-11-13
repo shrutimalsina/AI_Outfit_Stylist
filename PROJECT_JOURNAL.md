@@ -138,3 +138,9 @@
 - Real-catalog production Compose smoke passed on Docker Desktop (Engine 29.9.3). The initial attempt stalled while starting a bind-mounted container, including a minimal mount probe. Restarting Docker Desktop resolved the stall. The successful retry verified migrations, publication, offline readiness, real upload and all three result images through Nginx. The isolated test stack was removed.
 
 - Prepared a zero-cost static GitHub Pages demo with six precomputed examples from the real catalog and held-out research results. JavaScript syntax and example data checks passed. Pages returned HTTP 404 and GitHub CLI has no authenticated admin session. Repository Pages configuration is required before public verification.
+
+### Editorial frontend redesign
+
+- Added optional ranked alternatives to both recommendation endpoints and a real catalog sample route. The original recommendation and evaluation paths retain their default behavior.
+
+- Verified the redesign in Chromium at desktop, tablet and phone widths. Real sample and photo upload returned three decoded images. Verified single-slot swap, another combo, grid and before/after views, preview dialog, explanations, saved look persistence and removal, persisted rating and 1600×1300 PNG download. TypeScript/Vite build, Ruff, 19 tests (one PostgreSQL test skipped), and the real-catalog production Docker smoke passed. Hero photograph was generated for the interface; catalog recommendations use real images.

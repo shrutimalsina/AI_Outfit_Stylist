@@ -48,6 +48,7 @@ def decode(payload):
 class ItemQuery(BaseModel):
     item_id: str
     top_k: int = Field(3, ge=1, le=3)
+    alternatives: int = Field(0, ge=0, le=12)
 
 
 def create_app(catalog=None, encoder_factory=ClipEncoder, image_root=None):
@@ -111,7 +112,7 @@ def create_app(catalog=None, encoder_factory=ClipEncoder, image_root=None):
             fail(404, "item_not_found", "Catalog item was not found")
         return selected.items[selected.rows[item_id]]
 
-    def result(category, select):
+    def result(category, select, embedding, alternatives):
         selected = current()
         if category not in selected.policy:
             fail(422, "invalid_category", "Select a supported clothing category")
@@ -126,15 +127,37 @@ def create_app(catalog=None, encoder_factory=ClipEncoder, image_root=None):
             except DatabaseError:
                 logger.exception("Unable to persist recommendation request")
                 fail(503, "database_unavailable", "Database is unavailable")
-        return {
+        def serialize(match):
+            return {**asdict(match), "image_url": f"/api/v1/items/{match.item_id}/image",
+                    "title": lookup(match.item_id).get("title")}
+
+        payload = {
             "request_id": str(request_id), "snapshot_id": selected.metadata["snapshot_id"],
             "model": selected.metadata["model"], "algorithm_version": ALGORITHM_VERSION,
             "input_category": category, "warnings": warnings,
-            "recommendations": [
-                {**asdict(match), "image_url": f"/api/v1/items/{match.item_id}/image",
-                 "title": lookup(match.item_id).get("title")} for match in matches
-            ],
+            "recommendations": [serialize(match) for match in matches],
         }
+        if alternatives:
+            payload["alternatives"] = {
+                slot: [serialize(match) for match in ranked]
+                for slot, ranked in selected.alternatives(embedding, matches, alternatives).items()
+            }
+        return payload
+
+    @app.get("/api/v1/catalog/samples")
+    def samples():
+        selected = current()
+        result = []
+        for category in ("top", "dress", "outerwear", "footwear"):
+            for index in selected.category_rows[category]:
+                item = selected.items[index]
+                path = (root / item["image"]).resolve()
+                if path.is_relative_to(root) and path.is_file():
+                    result.append({"item_id": item["id"], "title": item.get("title"),
+                                   "category": category,
+                                   "image_url": f"/api/v1/items/{item['id']}/image"})
+                    break
+        return result
 
     @app.get("/health/live")
     def live():
@@ -176,17 +199,20 @@ def create_app(catalog=None, encoder_factory=ClipEncoder, image_root=None):
     @app.post("/api/v1/recommendations/by-item")
     def by_item(query: ItemQuery):
         row = lookup(query.item_id)
-        return result(row["category"], lambda: current().recommend_by_item(query.item_id, top_k=query.top_k))
+        selected = current()
+        return result(row["category"], lambda: selected.recommend_by_item(query.item_id, top_k=query.top_k),
+                      selected.matrix[selected.rows[query.item_id]], query.alternatives)
 
     @app.post("/api/v1/recommendations")
-    def upload(image: UploadFile = File(), category: str = Form(), top_k: int = Form(3, ge=1, le=3)):
+    def upload(image: UploadFile = File(), category: str = Form(), top_k: int = Form(3, ge=1, le=3),
+               alternatives: int = Form(0, ge=0, le=12)):
         selected = current()
         if category not in selected.policy:
             fail(422, "invalid_category", "Select a supported clothing category")
         with decode(image.file.read(MAX_BYTES + 1)) as pixels:
             with inference_lock:
                 query = get_model()([pixels])[0]
-        return result(category, lambda: selected.recommend(query, category, top_k=top_k))
+        return result(category, lambda: selected.recommend(query, category, top_k=top_k), query, alternatives)
 
     @app.get("/api/v1/evaluations/{run_id}")
     def evaluation(run_id: str):
