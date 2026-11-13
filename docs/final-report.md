@@ -35,3 +35,9 @@ The evaluation workflow can run on verified inputs. A real Polyvore run is requi
 ## Fixture performance
 
 On an Apple M3, a live HTTP smoke test through Vite and Uvicorn used cached CLIP weights and four synthetic catalog items. The first upload took 3.148 seconds. Across ten subsequent uploads the p95 was 0.056 seconds. A full-catalog performance run remains outstanding.
+
+A repeatable benchmark using ten warmed samples on the same Apple M3 and
+four-item fixture measured 38.4 ms p95 for CPU inference, 0.048 ms p95
+for ranking, and 41.7 ms p95 for direct HTTP upload. Batch-eight inference
+processed 55.6 images per second at the median. The embedding matrix occupied
+8,192 bytes, excluding model weights and runtime overhead.

@@ -136,3 +136,10 @@ Use `--id-column` and `--image-column` if the downloaded schema uses names
 other than `item_id` and `image`. The extractor expects one item per row
 and either raw image bytes or a Hugging Face image struct with embedded bytes.
 The gated release schema still needs verification.
+
+## Local shortcuts
+
+Run `bash scripts/check_environment.sh` and `bash scripts/bootstrap.sh` to
+set up the project. Run `bash scripts/run_tests.sh` for Python and frontend
+checks. For a database-free synthetic demo, run `bash scripts/run_demo.sh`
+and start the frontend separately. See [deployment and benchmarking](docs/deployment.md).

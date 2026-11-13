@@ -79,3 +79,10 @@
 - In progress. Account setup deferred. Verified that GitHub Actions run 43359913111 completed both checks and Compose smoke successfully.
 
 - Added streaming Parquet image extraction, schema inspection, resumable output and a synthetic fixture test. Ruff and 18 Python tests passed; the live database test was skipped in this run. Real archive schema and research metrics remain deferred with account access.
+
+### Reproducible performance measurements
+
+- In progress. Account setup remains deferred. Adding a local benchmark that measures pinned CPU CLIP, catalog ranking, and optional HTTP latency independently.
+
+- Completed and verified the CPU benchmark with cached CLIP weights and a four-item synthetic catalog. Ten warmed samples yielded inference p95 38.4 ms, ranking p95 0.048 ms, and direct HTTP upload p95 41.7 ms. Batch-eight median throughput was 55.6 images/s and the matrix occupied 8,192 bytes.
+- Added setup, test, demo and backup scripts plus the deployment guide and changelog. Real Polyvore schema, catalog-scale performance and research results are pending dataset access.
