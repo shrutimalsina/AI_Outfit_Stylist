@@ -134,3 +134,5 @@
 - Closed the local handoff: a live Chromium browser uploaded a real clothing image through Vite and verified all three recommendation cards and decoded result images. The standalone artifact validator passed all 15,671 catalog items. Added an acceptance checklist, API contract and local dataset architecture decision. The preceding GitHub Actions run 43368292562 passed. Public hosting remains deferred.
 
 - Added a real-catalog production Compose smoke mode covering offline readiness, image upload and all three result images. Bash syntax and ShellCheck passed. Running it on this Mac stopped at the missing Docker CLI. The mode is ready for a Docker-capable host with the local artifacts. Public deployment remains deferred.
+
+- Real-catalog production Compose smoke passed on Docker Desktop (Engine 29.9.3). The initial attempt stalled while starting a bind-mounted container, including a minimal mount probe. Restarting Docker Desktop resolved the stall. The successful retry verified migrations, publication, offline readiness, real upload and all three result images through Nginx. The isolated test stack was removed.
