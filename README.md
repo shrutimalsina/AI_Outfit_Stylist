@@ -190,3 +190,6 @@ bash scripts/run_demo.sh real
 ```sh
 npm --prefix frontend run dev
 ```
+
+See the [completion checklist](docs/requirements.md) and
+[API contract](docs/api-contract.md) for verification and endpoint details.

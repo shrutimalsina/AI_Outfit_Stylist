@@ -130,3 +130,5 @@
 - Full-catalog benchmark on Apple M3 CPU: 15,671 rows and 32,094,208 matrix bytes. Ten warmed samples measured 76.0 ms direct HTTP upload p95, 73.7 ms inference p95, and 2.44 ms ranking p95. Median batch-eight throughput was 37.1 images/s. Local result: data/reports/polyvore-benchmark.json. Public deployment remains deferred.
 
 - Added a real-data option to the seminar launcher. ShellCheck passed and a live loopback request confirmed that the launcher served the evaluated 15,671-item snapshot. The default launcher still serves the fixture.
+
+- Closed the local handoff: a live Chromium browser uploaded a real clothing image through Vite and verified all three recommendation cards and decoded result images. The standalone artifact validator passed all 15,671 catalog items. Added an acceptance checklist, API contract and local dataset architecture decision. The preceding GitHub Actions run 43368292562 passed. Public hosting remains deferred.
