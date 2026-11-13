@@ -21,7 +21,7 @@ export default function OutfitCanvas({ original, matches, swap, canSwap }: {
           {mode === "before" ? "Before" : mode === "collage" ? "After · Collage" : "Grid"}
         </button>)}
     </div>
-    <div className={`outfit-board ${view}`} key={view}>
+    <div className={`outfit-board ${view}`}>
       <article className="original-card">
         <button className="image-button" type="button" onClick={() => enlarge(original)} aria-label="Enlarge your original piece">
           <img src={original.image_url} alt={original.title ?? "Your original piece"} />
@@ -34,15 +34,18 @@ export default function OutfitCanvas({ original, matches, swap, canSwap }: {
             <button className="image-button" type="button" onClick={() => enlarge(match)} aria-label={`Enlarge ${match.title ?? match.category}`}>
               <img src={match.image_url} alt={match.title ?? match.category} />
             </button>
-            <div className="explanation hover-explanation" aria-hidden="true">
-              <strong>Why This Piece?</strong><p>Ranked within the complementary {match.category} category by CLIP visual similarity.</p>
-              <span>Cosine similarity · {match.similarity.toFixed(3)}</span>
-            </div>
           </div>
           <div className="piece-copy">
             <span className="eyebrow">{match.category}</span>
             <h3>{match.title ?? match.category}</h3>
-            <details><summary>Why This Piece?</summary><p>Ranked within the complementary {match.category} category by CLIP visual similarity. Score: {match.similarity.toFixed(3)}.</p></details>
+            <details className="stylist-details">
+              <summary>Why This Piece?</summary>
+              <div className="stylist-note">
+                <h4>A Note From Your Stylist</h4>
+                <p>CLIP ranked this piece within the complementary {match.category} category by visual similarity.</p>
+                <p className="stylist-score"><em>Cosine similarity</em> {match.similarity.toFixed(3)}</p>
+              </div>
+            </details>
             <button className="text-button" disabled={!canSwap(match.category)} onClick={() => swap(match.category)}>Swap This Piece ↻</button>
           </div>
         </article>)}

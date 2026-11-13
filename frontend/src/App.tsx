@@ -249,6 +249,7 @@ export default function App() {
       </section>
 
       <section id="fashion" className="section-wrap editorial"><Decoration variant="editorial" /><h2>Fashion Today</h2>
+        <p className="editorial-sequence"><span>One Piece.</span><span>Endless Possibilities.</span><em>Uniquely Yours.</em></p>
         <p>For a styling exercise, start with one silhouette, then compare how different footwear or outerwear changes the outfit.</p>
         <a href="#samples">Try it with a catalog piece ↓</a>
       </section>

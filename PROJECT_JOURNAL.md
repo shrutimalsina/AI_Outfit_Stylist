@@ -154,3 +154,7 @@
 - Enlarged the wordmark, italicized Stylist, and added matching decorative diamonds on the hero photo. Frontend production build passed.
 
 - Framed both wordmarks with matching decorative diamonds. Frontend production build passed.
+
+- Editorial polish restore point: commit 414d8dfd72133138773d008744306aa0bbc1787f, annotated tag frontend-before-editorial-polish.
+
+- Polished the collage with an asymmetric layout, staggered image reveal, keyboard-accessible stylist notes and a compact scroll sequence in Fashion Today. Chromium verified the real catalog, all canvas views, note interactions, swaps, combination changes, rating, Lookbook, PNG download, reduced motion and no horizontal overflow at 390, 768 and 1440 pixels. The TypeScript production build and real-catalog Docker smoke passed. Pytest reported 19 passed and one PostgreSQL integration skip. The frontend has no configured lint script.
