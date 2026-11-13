@@ -1,6 +1,7 @@
 FROM python:3.11-slim
 WORKDIR /app
-COPY backend/requirements-app.txt /tmp/requirements.txt
+COPY backend/requirements-runtime.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.8.0
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY backend backend
 COPY pipeline pipeline

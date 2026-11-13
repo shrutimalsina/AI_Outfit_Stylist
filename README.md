@@ -110,3 +110,8 @@ snapshot IDs and input categories. Uploaded images are not retained.
 
 To exercise the PostgreSQL test, migrate a dedicated test database and run
 `STYLIST_TEST_DATABASE_URL="$DATABASE_URL" make test`.
+
+To verify the container stack with a synthetic catalog, run
+`bash scripts/smoke_compose.sh`. It uses a separate Compose project and port
+15175 by default, then removes that project's containers and database volume.
+The same smoke test runs in GitHub Actions.

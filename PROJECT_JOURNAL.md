@@ -62,3 +62,10 @@
 - Completed and verified against PostgreSQL 17.11 on an isolated loopback cluster. Alembic upgraded, downgraded, and upgraded again. The integration test verified repeat publication, embedding row mappings, evaluation report and case persistence, readiness, and recommendation-request logging. All 18 tests and Ruff passed. CI now runs the same database test against its PostgreSQL service.
 - Evaluation exclusions with unresolved foreign keys remain in the stored report JSON. The API still supports local reports when no database record is available. Recommendation logging stores IDs and categories without image payloads.
 - Next: verify Compose in a Docker-capable environment and resolve Polyvore access for the real evaluation. Fixture timing remains the only latency measurement.
+
+### Compose smoke test
+
+- In progress. This Mac has no Docker-compatible CLI on PATH. Adding a reproducible smoke test and a Linux CI job to exercise the Compose stack.
+
+- Implemented the isolated Compose smoke test and wired it into GitHub Actions. It builds and starts all three services, publishes a fixture through PostgreSQL, and checks the UI, recommendation endpoint, and image proxy through Nginx. The backend image installs CPU PyTorch and omits Jupyter and test tools.
+- Verified bash syntax, ShellCheck, git diff checks, and 17 local Python tests. The dedicated database test was skipped for this run and passed in the previous live PostgreSQL run. Actual Compose execution remains pending a Docker-capable runner.
