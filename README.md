@@ -115,3 +115,12 @@ To verify the container stack with a synthetic catalog, run
 `bash scripts/smoke_compose.sh`. It uses a separate Compose project and port
 15175 by default, then removes that project's containers and database volume.
 The same smoke test runs in GitHub Actions.
+
+### Access the pinned Hugging Face release
+
+The [authors' release](https://huggingface.co/datasets/mvasil/polyvore-outfits)
+requires an authenticated account with dataset access. After access is granted,
+sign in locally with `.venv/bin/hf auth login` and run
+`.venv/bin/python -m pipeline.acquire_dataset`. This fetches the official
+disjoint metadata and image-bearing Parquet files. The ingestion command above
+still requires the images in `images/<item_id>.jpg` layout.

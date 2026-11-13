@@ -69,3 +69,5 @@
 
 - Implemented the isolated Compose smoke test and wired it into GitHub Actions. It builds and starts all three services, publishes a fixture through PostgreSQL, and checks the UI, recommendation endpoint, and image proxy through Nginx. The backend image installs CPU PyTorch and omits Jupyter and test tools.
 - Verified bash syntax, ShellCheck, git diff checks, and 17 local Python tests. The dedicated database test was skipped for this run and passed in the previous live PostgreSQL run. Actual Compose execution remains pending a Docker-capable runner.
+
+- Rechecked the authors' release and upstream repository. Hugging Face explicitly requires an authenticated account with access, and the upstream README points to the same distribution. Added a pinned acquisition CLI and documented the access requirement. Real data and Parquet schema validation remain blocked pending authorized access.
