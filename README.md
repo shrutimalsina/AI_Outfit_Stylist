@@ -124,3 +124,15 @@ sign in locally with `.venv/bin/hf auth login` and run
 `.venv/bin/python -m pipeline.acquire_dataset`. This fetches the official
 disjoint metadata and image-bearing Parquet files. The ingestion command above
 still requires the images in `images/<item_id>.jpg` layout.
+
+Inspect the downloaded schema first, then extract its embedded images:
+
+```sh
+.venv/bin/python -m pipeline.unpack_images --inspect data/raw/polyvore_outfits/data/disjoint/*.parquet
+.venv/bin/python -m pipeline.unpack_images data/raw/polyvore_outfits/data/disjoint/*.parquet
+```
+
+Use `--id-column` and `--image-column` if the downloaded schema uses names
+other than `item_id` and `image`. The extractor expects one item per row
+and either raw image bytes or a Hugging Face image struct with embedded bytes.
+The gated release schema still needs verification.

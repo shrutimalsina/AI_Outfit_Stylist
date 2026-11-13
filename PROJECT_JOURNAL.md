@@ -73,3 +73,9 @@
 - Rechecked the authors' release and upstream repository. Hugging Face explicitly requires an authenticated account with access, and the upstream README points to the same distribution. Added a pinned acquisition CLI and documented the access requirement. Real data and Parquet schema validation remain blocked pending authorized access.
 
 - Reran the full Python suite against an isolated PostgreSQL 17 cluster. All 18 tests passed and combined app/pipeline statement coverage was 81%. The earlier Compose workflow's checks job passed; its container smoke job was still running at the last observation.
+
+### Local dataset preparation
+
+- In progress. Account setup deferred. Verified that GitHub Actions run 43359913111 completed both checks and Compose smoke successfully.
+
+- Added streaming Parquet image extraction, schema inspection, resumable output and a synthetic fixture test. Ruff and 18 Python tests passed; the live database test was skipped in this run. Real archive schema and research metrics remain deferred with account access.
