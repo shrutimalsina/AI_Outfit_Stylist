@@ -45,3 +45,14 @@ four-item fixture measured 38.4 ms p95 for CPU inference, 0.048 ms p95
 for ranking, and 41.7 ms p95 for direct HTTP upload. Batch-eight inference
 processed 55.6 images per second at the median. The embedding matrix occupied
 8,192 bytes, excluding model weights and runtime overhead.
+
+## Full-catalog performance
+
+On the Apple M3 CPU, the real 15,671-item catalog used 32,094,208 bytes
+for the embedding matrix. A single-client, ten-sample benchmark with
+cached model weights measured 76.0 ms p95 for a warmed HTTP upload,
+73.7 ms for warmed inference and 2.44 ms for ranking. The first encoder
+initialization and inference took 4.36 seconds. Batch-eight median
+throughput was 37.1 images per second. The HTTP benchmark used one image
+and direct loopback access, with the catalog loaded from disk and database
+logging disabled.
