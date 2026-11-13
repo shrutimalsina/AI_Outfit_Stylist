@@ -71,3 +71,5 @@
 - Verified bash syntax, ShellCheck, git diff checks, and 17 local Python tests. The dedicated database test was skipped for this run and passed in the previous live PostgreSQL run. Actual Compose execution remains pending a Docker-capable runner.
 
 - Rechecked the authors' release and upstream repository. Hugging Face explicitly requires an authenticated account with access, and the upstream README points to the same distribution. Added a pinned acquisition CLI and documented the access requirement. Real data and Parquet schema validation remain blocked pending authorized access.
+
+- Reran the full Python suite against an isolated PostgreSQL 17 cluster. All 18 tests passed and combined app/pipeline statement coverage was 81%. The earlier Compose workflow's checks job passed; its container smoke job was still running at the last observation.
