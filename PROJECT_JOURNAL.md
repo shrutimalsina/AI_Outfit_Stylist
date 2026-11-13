@@ -108,3 +108,5 @@
 - Added backend/uv.lock with CPU PyTorch on Linux and Windows and the native wheel on macOS. Docker builds from the locked runtime extras and bootstrap syncs all extras. Lock consistency and a clean macOS sync passed. The clean environment passed 18 tests with the dedicated PostgreSQL test skipped. The revised production smoke was still running at last check.
 
 - Linux CI now installs its application, research and test dependencies from the same lock used by local setup and Docker. The existing locked Docker workflow was in progress at the last check.
+
+- Completed and verified on Linux. GitHub Actions run 43361298694 passed the locked Python/PostgreSQL checks, frontend build, and production Compose smoke. The smoke uses a synthetic catalog. Public deployment awaits a target host and HTTPS details. Real research results await authorized Polyvore files.
