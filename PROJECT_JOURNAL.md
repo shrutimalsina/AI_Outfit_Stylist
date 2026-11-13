@@ -90,3 +90,6 @@
 ### Production deployment preparation
 
 - In progress. Preparing a single-host production overlay and release procedure. Polyvore access remains deferred.
+
+- Added and pushed a production Compose overlay, read-only catalog mounts, offline model mode, proxy health routes and deployment/rollback instructions. The updated smoke job targets the production overlay.
+- Local verification: Ruff and ShellCheck passed; 18 Python tests passed and one PostgreSQL test was skipped because this run did not supply a database URL. Production Compose CI and real-host HTTPS verification remain pending. No production target or validated real catalog is configured.
