@@ -1,0 +1,6 @@
+top: [bottom, outerwear, footwear]
+bottom: [top, outerwear, footwear]
+dress: [outerwear, footwear, accessory]
+outerwear: [top, bottom, footwear]
+footwear: [top, bottom, outerwear]
+accessory: [top, bottom, footwear]

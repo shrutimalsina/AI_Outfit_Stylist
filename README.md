@@ -36,3 +36,25 @@ HF_HOME="$PWD/data/raw/hf-cache" .venv/bin/python -m pipeline.extract_embeddings
 ```
 
 CPU is the default. Each completed row is cached so the same command can resume an interrupted run. A published snapshot contains the float32 NumPy matrix, the ordered item manifest, and checksums. Unknown categories are excluded from the snapshot.
+
+## Rank catalog items
+
+Pass a published snapshot directory and a source item ID:
+
+```sh
+.venv/bin/python - "$SNAPSHOT_DIR" "$ITEM_ID" <<'PY'
+from pathlib import Path
+import sys
+
+from backend.app.recommendations.engine import Catalog
+
+catalog = Catalog(Path(sys.argv[1]))
+matches, warnings = catalog.recommend_by_item(sys.argv[2], top_k=3)
+for match in matches:
+    print(match.position, match.category, match.item_id, match.similarity)
+for warning in warnings:
+    print(warning)
+PY
+```
+
+The engine selects one item per category in policy order and breaks equal cosine scores by lexicographic item ID. Scores measure visual similarity. Empty slots produce warnings, and later eligible slots can fill the result up to the requested limit.

@@ -25,3 +25,11 @@
 
 - Phase 3 checkpoint: Completed and verified on synthetic inputs. Added backend/app/ml/encoder.py and pipeline/extract_embeddings.py. The official revision has no safetensors artifact, so the loader uses PyTorch 2.8.0 with weights-only loading on the pinned official file. CPU inference on a generated RGB image produced shape (1, 512), dtype float32, and norm 1.0. Six unit tests passed, including simulated interruption, row alignment and published-snapshot reuse. pip check reported no broken requirements. The ML checkpoint lock is a macOS environment freeze; a full cross-platform lock remains pending.
 - Next: resolve dataset file access and inspect the pinned Parquet schema, or obtain the authors' unpacked release. In parallel with that data dependency, the next implementation phase is a checksum-validating catalog reader and deterministic category-slot ranking. No real research metrics are available.
+
+### Phase 4 — catalog loading and ranking
+
+- In progress. Reverified the previous checkpoint with six passing tests.
+
+- Completed and verified. Added config/categories.yaml, the shared catalog reader and ranking engine, and five tests. Catalog loading checks both checksums, model revision, shape, dtype, row IDs and vector norms. Ranking uses policy order and lexicographic string IDs for ties, skips empty slots, and shares candidate selection with seeded random retrieval.
+- Verification: all 11 unit tests passed and git diff --check passed. Tests used synthetic artifacts. Real-data access remains blocked by the recorded HTTP 401.
+- Next: implement hidden-item case enumeration, Recall@1/3 and MRR@3, and comparison across 100 baseline seeds. Record exclusions and catalog/policy provenance in the evaluation report.

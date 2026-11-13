@@ -2,7 +2,7 @@
 name = "ai-outfit-stylist"
 version = "0.1.0"
 requires-python = ">=3.11,<3.12"
-dependencies = ["Pillow==11.3.0", "numpy==2.2.6"]
+dependencies = ["Pillow==11.3.0", "numpy==2.2.6", "PyYAML==6.0.3"]
 
 [project.optional-dependencies]
 ml = ["torch==2.8.0", "transformers==4.55.4"]
