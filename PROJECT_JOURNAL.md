@@ -128,3 +128,5 @@
 
 - Completed local real-catalog integration. All four notebooks executed on the real joined dataset and are saved under data/reports/polyvore-notebooks. An isolated PostgreSQL 17 run applied migrations, published the real catalog, registered the test report, and verified API readiness and retrieval of the stored report. All 20 tests passed with 81% Python statement coverage, and the React production build passed.
 - Full-catalog benchmark on Apple M3 CPU: 15,671 rows and 32,094,208 matrix bytes. Ten warmed samples measured 76.0 ms direct HTTP upload p95, 73.7 ms inference p95, and 2.44 ms ranking p95. Median batch-eight throughput was 37.1 images/s. Local result: data/reports/polyvore-benchmark.json. Public deployment remains deferred.
+
+- Added a real-data option to the seminar launcher. ShellCheck passed and a live loopback request confirmed that the launcher served the evaluated 15,671-item snapshot. The default launcher still serves the fixture.

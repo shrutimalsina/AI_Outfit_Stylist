@@ -184,10 +184,7 @@ can occur under different outfit-scoped IDs.
 To serve the evaluated catalog locally, use two terminals from the repository root:
 
 ```sh
-STYLIST_SNAPSHOT="$(cat data/reports/polyvore-snapshot.txt)" \
-STYLIST_IMAGE_ROOT=data/raw/polyvore_images \
-HF_HOME="$PWD/data/raw/hf-cache" HF_HUB_OFFLINE=1 \
-.venv/bin/uvicorn backend.app.main:app --host 127.0.0.1
+bash scripts/run_demo.sh real
 ```
 
 ```sh
