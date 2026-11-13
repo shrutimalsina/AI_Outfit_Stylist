@@ -193,3 +193,8 @@ npm --prefix frontend run dev
 
 See the [completion checklist](docs/requirements.md) and
 [API contract](docs/api-contract.md) for verification and endpoint details.
+
+The static [public research demo source](frontend/public-demo) presents saved
+real-catalog scores without distributing the image archive. To publish it on
+GitHub Pages, set the repository's Pages source to GitHub Actions, then run
+the Public demo workflow. The full photo-upload app runs locally.

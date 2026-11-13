@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Outfit Stylist · Research Demo</title>
+<style>
+body{background:#f4f2eb;color:#262c25;font:1rem system-ui,sans-serif;margin:0}main{max-width:850px;margin:auto;padding:clamp(24px,6vw,80px)}h1{font:clamp(3rem,8vw,6rem) Georgia,serif;margin:0}section{border:1px solid #d7d9cb;background:#fffdf7;border-radius:16px;padding:24px;margin:24px 0}select{font:inherit;padding:.5rem}ol{padding-left:1.5rem}li{padding:.4rem}a{color:#294d3e}
+</style>
+<main>
+<h1>AI Outfit Stylist</h1>
+<p>Explore saved recommendations from the Polyvore research run.</p>
+<section>
+<label for="query">Example clothing item</label>
+<select id="query" disabled></select>
+<p id="status" role="status">Loading examples…</p>
+<ol id="matches"></ol>
+<p>Cosine similarity measures visual similarity. Photo uploads and live inference are available in the local app.</p>
+</section>
+<section>
+<h2>Held-out test results</h2>
+<p>CLIP recovered 7 of 3,104 eligible targets (0.2255% Recall@3), compared with 0.0480% for the mean category-matched random baseline.</p>
+<a href="https://github.com/shrutimalsina/AI_Outfit_Stylist/blob/main/docs/final-report.md">Read the research report</a> ·
+<a href="https://github.com/shrutimalsina/AI_Outfit_Stylist#readme">Run the full app locally</a>
+</section>
+</main>
+<script type="module" src="./demo.js"></script>
+</html>

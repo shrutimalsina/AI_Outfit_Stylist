@@ -136,3 +136,5 @@
 - Added a real-catalog production Compose smoke mode covering offline readiness, image upload and all three result images. Bash syntax and ShellCheck passed. Running it on this Mac stopped at the missing Docker CLI. The mode is ready for a Docker-capable host with the local artifacts. Public deployment remains deferred.
 
 - Real-catalog production Compose smoke passed on Docker Desktop (Engine 29.9.3). The initial attempt stalled while starting a bind-mounted container, including a minimal mount probe. Restarting Docker Desktop resolved the stall. The successful retry verified migrations, publication, offline readiness, real upload and all three result images through Nginx. The isolated test stack was removed.
+
+- Prepared a zero-cost static GitHub Pages demo with six precomputed examples from the real catalog and held-out research results. JavaScript syntax and example data checks passed. Pages returned HTTP 404 and GitHub CLI has no authenticated admin session. Repository Pages configuration is required before public verification.

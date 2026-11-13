@@ -1,0 +1,104 @@
+[
+  {
+    "label": "Accessory",
+    "matches": [
+      {
+        "category": "top",
+        "similarity": 0.8385240435600281
+      },
+      {
+        "category": "bottom",
+        "similarity": 0.7958133220672607
+      },
+      {
+        "category": "footwear",
+        "similarity": 0.8003714084625244
+      }
+    ]
+  },
+  {
+    "label": "Bottom",
+    "matches": [
+      {
+        "category": "top",
+        "similarity": 0.9191057085990906
+      },
+      {
+        "category": "outerwear",
+        "similarity": 0.9154560565948486
+      },
+      {
+        "category": "footwear",
+        "similarity": 0.8848199844360352
+      }
+    ]
+  },
+  {
+    "label": "Dress",
+    "matches": [
+      {
+        "category": "outerwear",
+        "similarity": 0.878459095954895
+      },
+      {
+        "category": "footwear",
+        "similarity": 0.828611433506012
+      },
+      {
+        "category": "accessory",
+        "similarity": 0.8731576204299927
+      }
+    ]
+  },
+  {
+    "label": "Footwear",
+    "matches": [
+      {
+        "category": "top",
+        "similarity": 0.7923883199691772
+      },
+      {
+        "category": "bottom",
+        "similarity": 0.8012142181396484
+      },
+      {
+        "category": "outerwear",
+        "similarity": 0.776192307472229
+      }
+    ]
+  },
+  {
+    "label": "Outerwear",
+    "matches": [
+      {
+        "category": "top",
+        "similarity": 0.9591776132583618
+      },
+      {
+        "category": "bottom",
+        "similarity": 0.9015617966651917
+      },
+      {
+        "category": "footwear",
+        "similarity": 0.8577536940574646
+      }
+    ]
+  },
+  {
+    "label": "Top",
+    "matches": [
+      {
+        "category": "bottom",
+        "similarity": 0.8581700325012207
+      },
+      {
+        "category": "outerwear",
+        "similarity": 0.8594748377799988
+      },
+      {
+        "category": "footwear",
+        "similarity": 0.774982213973999
+      }
+    ]
+  }
+]
