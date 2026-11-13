@@ -15,7 +15,7 @@ def check(manifest_path, snapshot, image_root, *, allow_fixture=False):
     if sha256(manifest_path) != catalog.metadata["source_sha256"]:
         raise ValueError("Source manifest does not match the catalog snapshot")
     source = read_json(manifest_path)
-    if source["dataset"] != "mvasil/polyvore-outfits" and not allow_fixture:
+    if source["dataset"] not in {"mvasil/polyvore-outfits", "original-polyvore-re-polyvore-join"} and not allow_fixture:
         raise ValueError("Expected a Polyvore release. Use --allow-fixture only for a demo.")
     image_root = image_root.resolve()
     for item in catalog.items:

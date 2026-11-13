@@ -123,3 +123,5 @@
 - Both copies verified against Downloads using a recursive rsync checksum dry run with no differences. The original files remain in Downloads.
 
 - Completed real evaluation on Apple M3 MPS with pinned CLIP. Cached 15,671 embeddings. Validation: 2,908 eligible and 3,096 excluded, Recall@3 0.00653370, MRR@3 0.00424117, random mean Recall@3 0.00050206. Test: 3,104 eligible and 3,404 excluded, Recall@3 0.00225515, MRR@3 0.00155713, random mean Recall@3 0.00048003 (population SD 0.00040108). Produced both splits' charts and recommendation panels under data/reports. Public deployment deferred.
+
+- Verified the evaluated catalog through release preflight and FastAPI TestClient. All 15,671 image hashes matched, offline CLIP inference ran, and both a real image upload and a by-item request returned three complementary items with working image URLs. Updated preflight to recognize the local join and documented local startup.
