@@ -16,7 +16,7 @@ from PIL import Image
 from pydantic import BaseModel, Field
 from psycopg import Error as DatabaseError
 
-from backend.app.database.connection import active_snapshot
+from backend.app.database.connection import active_snapshot, load_evaluation, record_request
 from backend.app.ml.encoder import ClipEncoder
 from backend.app.recommendations.engine import ALGORITHM_VERSION, Catalog, NoCandidatesError
 from pipeline.prepare_dataset import read_json
@@ -119,8 +119,15 @@ def create_app(catalog=None, encoder_factory=ClipEncoder, image_root=None):
             matches, warnings = select()
         except NoCandidatesError:
             fail(404, "no_candidates", "No eligible catalog items")
+        request_id = uuid4()
+        if os.environ.get("DATABASE_URL"):
+            try:
+                record_request(request_id, selected.metadata["snapshot_id"], category)
+            except DatabaseError:
+                logger.exception("Unable to persist recommendation request")
+                fail(503, "database_unavailable", "Database is unavailable")
         return {
-            "request_id": str(uuid4()), "snapshot_id": selected.metadata["snapshot_id"],
+            "request_id": str(request_id), "snapshot_id": selected.metadata["snapshot_id"],
             "model": selected.metadata["model"], "algorithm_version": ALGORITHM_VERSION,
             "input_category": category, "warnings": warnings,
             "recommendations": [
@@ -187,6 +194,13 @@ def create_app(catalog=None, encoder_factory=ClipEncoder, image_root=None):
             identifier = str(UUID(run_id))
         except ValueError:
             fail(404, "evaluation_not_found", "Evaluation was not found")
+        if os.environ.get("DATABASE_URL"):
+            try:
+                saved = load_evaluation(identifier)
+            except DatabaseError:
+                fail(503, "database_unavailable", "Database is unavailable")
+            if saved is not None:
+                return saved
         report = Path(os.environ.get("STYLIST_REPORT_ROOT", "data/reports")) / f"{identifier}.json"
         if not report.is_file():
             fail(404, "evaluation_not_found", "Evaluation was not found")

@@ -99,3 +99,14 @@ For a synthetic demonstration, generate the fixture above, publish its manifest 
 Run `make test` and `make lint`. To start the Compose services, copy `.env.example` to `.env`, choose a local password, and run `docker compose up --build -d`. Publish the snapshot using paths under `/app/data` with `docker compose exec backend python -m pipeline.publish_catalog /app/data/processed/manifest.json /app/data/embeddings/<snapshot-id>`, then run `docker compose restart backend` and visit `http://localhost:5173`.
 
 The local Compose stack binds the UI to loopback. For public deployment configure HTTPS and secret management, preserve the database and catalog volume, and route requests through a reverse proxy with upload and rate limits. Back up PostgreSQL with `docker compose exec -T database pg_dump -U stylist -d stylist > stylist.sql` and back up the catalog directory separately.
+
+### Store an evaluation in PostgreSQL
+
+After publishing the matching snapshot and generating a report, run
+`.venv/bin/python -m pipeline.register_evaluation data/reports/validation.json`.
+The command prints the run UUID. Use it with `GET /api/v1/evaluations/{run_id}`.
+With `DATABASE_URL` configured, the API also records successful request IDs,
+snapshot IDs and input categories. Uploaded images are not retained.
+
+To exercise the PostgreSQL test, migrate a dedicated test database and run
+`STYLIST_TEST_DATABASE_URL="$DATABASE_URL" make test`.

@@ -2,6 +2,7 @@ from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 import numpy as np
@@ -14,6 +15,7 @@ from scripts.create_fixture import build
 
 class ApiTest(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.dict("os.environ", {"DATABASE_URL": ""}))
         temporary = TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name)

@@ -54,3 +54,11 @@
 - Next: verify CI PostgreSQL integration, run Compose and browser smoke tests, obtain authorized Polyvore files, and run validation then the frozen test evaluation. Real research metrics and warmed API performance remain unavailable.
 
 - Live HTTP smoke check passed through Vite to Uvicorn with cached CPU CLIP, returning three fixture recommendations for each of 11 uploads. Apple M3, one cold request 3.148 s, ten warmed requests p95 0.056 s. This does not establish performance with a full Polyvore catalog. GitHub CLI is unauthenticated, so remote Actions status was not verified.
+
+### PostgreSQL persistence
+
+- In progress. Adding transactional evaluation registration and request metadata logging.
+
+- Completed and verified against PostgreSQL 17.11 on an isolated loopback cluster. Alembic upgraded, downgraded, and upgraded again. The integration test verified repeat publication, embedding row mappings, evaluation report and case persistence, readiness, and recommendation-request logging. All 18 tests and Ruff passed. CI now runs the same database test against its PostgreSQL service.
+- Evaluation exclusions with unresolved foreign keys remain in the stored report JSON. The API still supports local reports when no database record is available. Recommendation logging stores IDs and categories without image payloads.
+- Next: verify Compose in a Docker-capable environment and resolve Polyvore access for the real evaluation. Fixture timing remains the only latency measurement.
