@@ -19,7 +19,7 @@ trap cleanup EXIT
 
 docker compose config --quiet
 docker compose up --build --wait --wait-timeout 120
-snapshot=$(docker compose run --rm -T -v "$PWD/data:/app/data" backend python -m scripts.create_fixture "$STYLIST_IMAGE_ROOT")
+snapshot=$(docker compose -f docker-compose.yml run --rm --no-deps -T backend python -m scripts.create_fixture "$STYLIST_IMAGE_ROOT")
 docker compose exec -T backend python -m pipeline.publish_catalog "$STYLIST_IMAGE_ROOT/manifest.json" "$snapshot"
 docker compose restart backend
 

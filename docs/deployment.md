@@ -49,3 +49,12 @@ the previous snapshot and manifest, republish them, and restart the backend.
 Before a software upgrade, save the database with
 `bash scripts/backup_database.sh /path/to/backup.sql` and back up the data
 directory separately. Keep the previous release checkout available.
+
+Before starting services, follow the [production handoff](production-handoff.md)
+to initialize the private environment file. Validate the assembled release
+on a machine with the project Python dependencies:
+
+```sh
+HF_HOME="$PWD/data/raw/hf-cache" .venv/bin/python -m scripts.release_preflight \
+  data/processed/manifest.json "$SNAPSHOT_DIR" data/raw/polyvore_outfits
+```

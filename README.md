@@ -143,3 +143,6 @@ Run `bash scripts/check_environment.sh` and `bash scripts/bootstrap.sh` to
 set up the project. Run `bash scripts/run_tests.sh` for Python and frontend
 checks. For a database-free synthetic demo, run `bash scripts/run_demo.sh`
 and start the frontend separately. See [deployment and benchmarking](docs/deployment.md).
+
+See [production accounts and setup](docs/production-handoff.md) for the
+deployment prerequisites, private credential setup, and release handoff.

@@ -93,3 +93,10 @@
 
 - Added and pushed a production Compose overlay, read-only catalog mounts, offline model mode, proxy health routes and deployment/rollback instructions. The updated smoke job targets the production overlay.
 - Local verification: Ruff and ShellCheck passed; 18 Python tests passed and one PostgreSQL test was skipped because this run did not supply a database URL. Production Compose CI and real-host HTTPS verification remain pending. No production target or validated real catalog is configured.
+
+### Production handoff
+
+- In progress. Preparing private environment initialization, release preflight and account handoff.
+
+- Created an ignored local .env with mode 0600. Release preflight verified all four fixture image checksums and ran offline CLIP inference. Ruff, ShellCheck and 18 local tests passed; the PostgreSQL test was skipped locally.
+- The first production-overlay CI smoke failed. Its detailed logs require GitHub authentication. Updated fixture creation to explicitly use the writable base Compose service, while publication and HTTP checks continue to use the production overlay. The revised smoke requires a fresh CI run.
