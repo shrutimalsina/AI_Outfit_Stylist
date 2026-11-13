@@ -2,6 +2,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+export COMPOSE_FILE=docker-compose.yml:docker-compose.production.yml
 export COMPOSE_PROJECT_NAME="stylist-smoke-${GITHUB_RUN_ID:-$$}"
 export POSTGRES_PASSWORD=local_smoke_only
 export STYLIST_IMAGE_ROOT=/app/data/processed/compose-fixture
@@ -18,12 +19,13 @@ trap cleanup EXIT
 
 docker compose config --quiet
 docker compose up --build --wait --wait-timeout 120
-snapshot=$(docker compose exec -T backend python -m scripts.create_fixture "$STYLIST_IMAGE_ROOT")
+snapshot=$(docker compose run --rm -T -v "$PWD/data:/app/data" backend python -m scripts.create_fixture "$STYLIST_IMAGE_ROOT")
 docker compose exec -T backend python -m pipeline.publish_catalog "$STYLIST_IMAGE_ROOT/manifest.json" "$snapshot"
 docker compose restart backend
 
 base="http://127.0.0.1:$STYLIST_HTTP_PORT"
 curl -fsS --retry 30 --retry-delay 2 --retry-all-errors --retry-max-time 60 "$base/api/v1/catalog" > /dev/null
+curl -fsS "$base/health/live" > /dev/null
 page=$(curl -fsS "$base/")
 [[ "$page" == *"AI Outfit Stylist"* ]]
 curl -fsS -H 'Content-Type: application/json' -d '{"item_id":"1","top_k":3}' \

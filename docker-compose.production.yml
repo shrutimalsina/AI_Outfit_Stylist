@@ -1,0 +1,16 @@
+services:
+  database:
+    restart: unless-stopped
+  backend:
+    restart: unless-stopped
+    environment:
+      HF_HUB_OFFLINE: "1"
+      STYLIST_REPORT_ROOT: /app/data/reports
+    volumes:
+      - ./data:/app/data:ro
+    security_opt:
+      - no-new-privileges:true
+  frontend:
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
