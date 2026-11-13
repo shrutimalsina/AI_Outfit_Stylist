@@ -132,3 +132,5 @@
 - Added a real-data option to the seminar launcher. ShellCheck passed and a live loopback request confirmed that the launcher served the evaluated 15,671-item snapshot. The default launcher still serves the fixture.
 
 - Closed the local handoff: a live Chromium browser uploaded a real clothing image through Vite and verified all three recommendation cards and decoded result images. The standalone artifact validator passed all 15,671 catalog items. Added an acceptance checklist, API contract and local dataset architecture decision. The preceding GitHub Actions run 43368292562 passed. Public hosting remains deferred.
+
+- Added a real-catalog production Compose smoke mode covering offline readiness, image upload and all three result images. Bash syntax and ShellCheck passed. Running it on this Mac stopped at the missing Docker CLI. The mode is ready for a Docker-capable host with the local artifacts. Public deployment remains deferred.

@@ -58,3 +58,9 @@ on a machine with the project Python dependencies:
 HF_HOME="$PWD/data/raw/hf-cache" .venv/bin/python -m scripts.release_preflight \
   data/processed/manifest.json "$SNAPSHOT_DIR" data/raw/polyvore_outfits
 ```
+
+On a Docker-capable machine with the local joined dataset, cached model,
+and evaluated snapshot available, run `bash scripts/smoke_compose.sh real`.
+It exercises the production overlay, offline readiness, a real image upload,
+and delivery of all three recommended images. It uses an isolated database
+volume and removes that volume when the run ends.
