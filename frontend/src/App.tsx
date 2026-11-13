@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import OutfitCanvas from "./OutfitCanvas";
 import { categories, downloadLook, imageData, request, type Look, type Match, type Piece, type Result } from "./stylist";
 
+function Decoration({ variant }: { variant: string }) {
+  return <span className={`decoration decoration--${variant}`} aria-hidden="true">
+    <span /><span /><span className="decoration-dot" /><span className="decoration-heart" />
+  </span>;
+}
+
 function stored<T>(key: string, fallback: T): T {
   try { return JSON.parse(localStorage.getItem(key) ?? "null") ?? fallback; }
   catch { return fallback; }
@@ -143,7 +149,7 @@ export default function App() {
 
   return <>
     <header className="site-header" id="home">
-      <a className="wordmark" href="#home"><span aria-hidden="true">✦</span> AI Outfit Stylist</a>
+      <a className="wordmark" href="#home"><span aria-hidden="true">✦</span> AI Outfit <em>Stylist</em> <span aria-hidden="true">✦</span></a>
       <button className="menu-toggle secondary" aria-expanded={menu} aria-controls="site-nav" onClick={() => setMenu(!menu)}>{menu ? "Close" : "Menu"}</button>
       <nav id="site-nav" className={menu ? "open" : ""} aria-label="Main navigation">
         <a href="#home" onClick={() => setMenu(false)}>Home</a>
@@ -156,15 +162,20 @@ export default function App() {
     <main>
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-copy">
+        <Decoration variant="hero" />
           <span className="hero-ornament" aria-hidden="true">✦</span>
           <h1 id="hero-title">Your Style,<br /> <em>Your Story.</em></h1>
           <p>A little intelligence. A lot of style.</p>
           <a className="primary" href="#discover">Discover Your Style <span aria-hidden="true">↓</span></a>
         </div>
-        <div className="hero-image" role="img" aria-label="Editorial portrait in cream tailoring" />
+        <div className="hero-image" role="img" aria-label="Editorial portrait in cream tailoring">
+          <span className="hero-image-diamond" aria-hidden="true">✦</span>
+          <span className="hero-image-diamond" aria-hidden="true">✦</span>
+        </div>
       </section>
 
       <section id="discover" className="studio section-wrap">
+        <Decoration variant="upload" />
         <div className="studio-intro"><h2>Choose Your Piece</h2><p>Start with one item. Find the pieces that bring the look together.</p><a href="#samples">Explore catalog samples ↓</a></div>
         <form className="upload-form" onSubmit={event => { event.preventDefault(); void generate(); }}>
           <div className={`drop-zone ${dragging ? "dragging" : ""}`}
@@ -187,8 +198,10 @@ export default function App() {
           {error && <p className="error" role="alert">{error}</p>}
         </form>
       </section>
-      {loading && <div className="loading section-wrap" role="status"><span aria-hidden="true">✦</span> Finding complementary pieces…</div>}
+      {loading && <div className="loading section-wrap" role="status">
+        <Decoration variant="loading" /><span aria-hidden="true">✦</span> Finding complementary pieces…</div>}
       {piece && result && <section ref={output} className="section-wrap styled-look" aria-labelledby="outfit-heading">
+        <Decoration variant="outfit" />
         <h2 id="outfit-heading">Your Styled Look</h2>
         <OutfitCanvas original={piece} matches={matches} swap={swap} canSwap={key => Boolean(result.alternatives?.[key]?.length)} />
         {result.warnings.map(warning => <p key={warning}>{warning}</p>)}
@@ -210,7 +223,7 @@ export default function App() {
       </section>}
       <div className={notice ? "section-wrap notice" : "sr-only"} role="status">{notice}</div>
 
-      <section id="samples" className="section-wrap samples">
+      <section id="samples" className="section-wrap samples"><Decoration variant="samples" />
         <h2>Need Inspiration? <em>Try a Sample.</em></h2>
         {sampleError && <p>Catalog samples are unavailable. You can still try your own photo when the stylist is connected.</p>}
         <div className="sample-grid">{samples.map(sample => <button key={sample.item_id} disabled={disabled} onClick={() => chooseSample(sample)}>
@@ -220,6 +233,7 @@ export default function App() {
       </section>
 
       <section id="lookbook" className="section-wrap lookbook">
+        <Decoration variant="lookbook" />
         <h2>My Lookbook</h2><p>Saved looks are stored in this browser and may disappear if you clear its data.</p>
         {looks.length === 0 && <p>Your saved outfits will appear here.</p>}
         <div className="sample-grid">{looks.map(look => <article key={look.id}>
@@ -234,15 +248,16 @@ export default function App() {
         </article>)}</div>
       </section>
 
-      <section id="fashion" className="section-wrap editorial"><h2>Fashion Today</h2>
+      <section id="fashion" className="section-wrap editorial"><Decoration variant="editorial" /><h2>Fashion Today</h2>
         <p>For a styling exercise, start with one silhouette, then compare how different footwear or outerwear changes the outfit.</p>
         <a href="#samples">Try it with a catalog piece ↓</a>
       </section>
-      <section className="section-wrap process"><h2>How It Works</h2>
+      <section className="section-wrap process"><Decoration variant="process" /><h2>How It Works</h2>
         <ol><li>Upload a clothing photo.</li><li>CLIP creates a visual embedding.</li><li>Cosine similarity ranks pieces in complementary categories.</li><li>Explore your recommended outfit.</li></ol>
       </section>
-      <section id="account" className="section-wrap account"><h2>Sign Up / Log In</h2><p>Accounts are coming soon. You can save looks in this browser today.</p><a href="#lookbook">Open My Lookbook ↑</a></section>
+      <section id="account" className="section-wrap account"><Decoration variant="account" /><h2>Sign Up / Log In</h2><p>Accounts are coming soon. You can save looks in this browser today.</p><a href="#lookbook">Open My Lookbook ↑</a></section>
     </main>
-    <footer><a className="wordmark" href="#home">✦ AI Outfit Stylist</a><p>Junior Seminar · Polyvore research project</p></footer>
+    <footer>
+        <Decoration variant="footer" /><a className="wordmark" href="#home"><span aria-hidden="true">✦</span> AI Outfit <em>Stylist</em> <span aria-hidden="true">✦</span></a><p>Junior Seminar · Polyvore research project</p></footer>
   </>;
 }

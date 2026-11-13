@@ -52,7 +52,7 @@ select,input:not([type=file]){min-height:44px;padding:.55rem .8rem;border:1px so
 label{font-weight:650}
 .error{color:#86243a;margin:0}
 .loading,.notice{padding:16px 24px;border:1px solid var(--line);background:var(--paper);border-radius:12px}
-.loading span{display:inline-block;color:var(--mauve);animation:pulse 1.4s ease-in-out infinite alternate}
+.loading > span:not(.decoration){display:inline-block;color:var(--mauve);animation:pulse 1.4s ease-in-out infinite alternate}
 @keyframes pulse{to{opacity:.3;transform:scale(.8)}}
 @keyframes reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .view-switch,.actions{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}
@@ -111,3 +111,107 @@ dialog img{max-height:65vh;width:100%;object-fit:contain}
   .collage .original-card img{aspect-ratio:3/2}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Each layer clips its own shapes and sits beneath its section's content. */
+:where(.hero-copy, .studio, .loading, .styled-look, .samples, .lookbook, .editorial, .process, .account, footer) {
+  position: relative;
+  isolation: isolate;
+}
+.decoration {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.decoration > span {
+  position: absolute;
+  display: block;
+  width: var(--size, 220px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--tint, var(--blush));
+  opacity: var(--fade, .1);
+}
+.decoration--hero > :first-child { --size: clamp(280px, 36vw, 540px); --fade: .12; top: -44%; right: -26%; }
+.decoration--hero > :nth-child(2) { --size: clamp(85px, 12vw, 174px); --tint: var(--rose); --fade: .09; top: 18%; right: 6%; }
+.decoration--upload > :first-child { --size: 340px; --tint: #c8a58e; top: -160px; left: -160px; }
+.decoration--upload > :nth-child(2) { --size: 210px; --tint: #d4b29a; bottom: -118px; right: -65px; }
+.decoration--loading > :first-child { --size: 140px; --fade: .12; top: -92px; right: 7%; }
+.decoration--loading > :nth-child(2) { --size: 76px; --tint: var(--rose); --fade: .08; bottom: -46px; right: 25%; }
+.decoration--outfit > :first-child { --size: 420px; --tint: var(--rose); --fade: .08; top: 14%; right: -170px; }
+.decoration--outfit > :nth-child(2) { --size: 260px; --tint: var(--mauve); --fade: .06; bottom: -108px; left: -80px; }
+.decoration--lookbook > :first-child { --size: 210px; --tint: var(--rose); --fade: .08; top: -58px; right: -34px; }
+.decoration--lookbook > :nth-child(2) { --size: 100px; --fade: .1; bottom: -38px; left: 4%; }
+.decoration--footer > :first-child { --size: 220px; --fade: .09; top: -150px; left: -70px; }
+.decoration--footer > :nth-child(2) { --size: 170px; --tint: var(--rose); bottom: -115px; right: -30px; }
+.decoration--hero > :nth-child(2),
+.decoration--loading > :nth-child(2),
+.decoration--lookbook > :nth-child(-n+2),
+.decoration > .decoration-heart {
+  border-radius: 0;
+  clip-path: shape(from 50% 89%, curve to 3% 38% with 36% 75% / 3% 56%, curve to 50% 26% with 3% 7% / 32% 2%, curve to 97% 38% with 68% 2% / 97% 7%, curve to 50% 89% with 97% 56% / 64% 75%, close);
+}
+.loading .decoration, .loading .decoration > span { animation: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .decoration--hero > :nth-child(2),
+  .decoration--lookbook > :first-child,
+  .loading .decoration > :nth-child(2) {
+    animation: decorative-drift 20s ease-in-out infinite alternate;
+  }
+}
+@keyframes decorative-drift {
+  from { transform: translateY(0) rotate(-9deg); }
+  to { transform: translateY(-12px) rotate(-3deg); }
+}
+
+.decoration > .decoration-dot {
+  --size: clamp(14px, 2.6vw, 35px);
+  --tint: var(--mauve);
+  --fade: .15;
+  top: 15%;
+  right: 4%;
+}
+.decoration > .decoration-heart {
+  --size: clamp(23px, 4vw, 52px);
+  --tint: var(--rose);
+  --fade: .18;
+  bottom: 12%;
+  left: 4%;
+  transform: rotate(-14deg);
+}
+.decoration--hero > .decoration-dot { top: 55%; right: 9%; }
+.decoration--hero > .decoration-heart { bottom: 15%; left: 3%; }
+.decoration--upload > .decoration-dot { top: 7%; right: 13%; }
+.decoration--outfit > .decoration-heart { bottom: 8%; left: 12%; }
+.decoration--lookbook > .decoration-dot { top: 28%; right: 19%; }
+.decoration--footer > .decoration-heart { bottom: -8px; left: 35%; }
+
+.decoration--samples > :nth-child(-n+2),
+.decoration--editorial > :nth-child(-n+2),
+.decoration--process > :nth-child(-n+2),
+.decoration--account > :nth-child(-n+2) { display: none; }
+
+.decoration--samples > .decoration-heart { top: 8%; bottom: auto; left: 68%; }
+.decoration--samples > .decoration-dot { top: 53%; right: 1%; }
+.decoration--editorial > .decoration-heart { bottom: 18%; left: 68%; }
+.decoration--editorial > .decoration-dot { top: 17%; right: 12%; }
+.decoration--process > .decoration-heart { top: 13%; bottom: auto; left: 81%; }
+.decoration--process > .decoration-dot { top: auto; bottom: 10%; right: 47%; }
+.decoration--account > .decoration-heart { top: 14%; bottom: auto; left: 56%; }
+.decoration--account > .decoration-dot { top: auto; bottom: 20%; right: 18%; }
+
+.wordmark { font-size: clamp(1.5rem, 2.3vw, 1.8rem); }
+.hero-image { position: relative; }
+.hero-image-diamond {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  color: var(--ivory);
+  text-shadow: 0 1px 6px var(--plum);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  pointer-events: none;
+}
+.hero-image-diamond + .hero-image-diamond { left: auto; right: 5%; }
+.wordmark span:last-child { margin-right: 0; margin-left: .3rem; }

@@ -144,3 +144,13 @@
 - Added optional ranked alternatives to both recommendation endpoints and a real catalog sample route. The original recommendation and evaluation paths retain their default behavior.
 
 - Verified the redesign in Chromium at desktop, tablet and phone widths. Real sample and photo upload returned three decoded images. Verified single-slot swap, another combo, grid and before/after views, preview dialog, explanations, saved look persistence and removal, persisted rating and 1600×1300 PNG download. TypeScript/Vite build, Ruff, 19 tests (one PostgreSQL test skipped), and the real-catalog production Docker smoke passed. Hero photograph was generated for the interface; catalog recommendations use real images.
+
+- Added translucent, clipped CSS hearts and circles behind the hero, upload, loading, outfit, Lookbook, and footer. Selected shapes drift slowly when motion is allowed. The frontend production build passed. Chromium verified the real recommendation flow and loading state, no horizontal overflow at 1440px and 390px, and disabled decorative motion under reduced-motion preferences.
+
+- Added a smaller heart and circle to each decorative layer, keeping the existing large shapes and low-opacity palette. Frontend production build passed.
+
+- Spread small hearts and circles into Samples, Fashion Today, How It Works, and Accounts. Increased small circles to 15% opacity and small hearts to 18%. The production build passed.
+
+- Enlarged the wordmark, italicized Stylist, and added matching decorative diamonds on the hero photo. Frontend production build passed.
+
+- Framed both wordmarks with matching decorative diamonds. Frontend production build passed.
