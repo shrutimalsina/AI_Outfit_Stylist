@@ -31,3 +31,7 @@ Fashion compatibility is subjective and multiple outfits can be valid. Exact-ite
 ## Conclusion
 
 The evaluation workflow can run on verified inputs. A real Polyvore run is required before drawing conclusions about CLIP versus random retrieval.
+
+## Fixture performance
+
+On an Apple M3, a live HTTP smoke test through Vite and Uvicorn used cached CLIP weights and four synthetic catalog items. The first upload took 3.148 seconds. Across ten subsequent uploads the p95 was 0.056 seconds. A full-catalog performance run remains outstanding.
