@@ -41,3 +41,14 @@
 - Completed and verified on fixtures. The evaluation enumerates ordered query/hidden pairs, checks split and eligibility, compares cosine retrieval to 100 seeded random runs, and records per-case outcomes, exclusions, category metrics and artifact provenance.
 - Verification: 13 unit tests passed, including known metrics and repeatable baseline results. CLI help and git diff --check passed. No real Polyvore metrics because the previously recorded dataset access blocker remains.
 - Next: create the academic notebooks using the shared modules, obtain the pinned dataset, then implement and verify the API and PostgreSQL integration.
+
+### Academic notebooks and application integration
+
+- In progress. Building notebooks with an explicitly labeled synthetic workflow and the same modules used for real experiments.
+
+- All four notebooks executed successfully with nbconvert and cached CLIP weights. Notebook outputs were generated outside the repository. Synthetic catalog outputs remain demonstration data.
+- FastAPI routes, initial Alembic schema, and React interface are implemented. Integration checks are in progress.
+
+- Verification: 17 pytest tests passed with 75% Python statement coverage across the measured app and pipeline modules. Ruff passed after removing an unused import. Alembic generated PostgreSQL upgrade SQL; live migrations and publication were not exercised locally because PostgreSQL and Docker executables are absent. React TypeScript and Vite build passed. API integration used TestClient and a synthetic catalog; browser-to-live-API and Compose startup remain unverified.
+- Added PostgreSQL snapshot publication, React upload and result display, Dockerfiles/Compose, CI, README commands and research report. Evaluation report lookup currently reads UUID-named local JSON reports; PostgreSQL evaluation/request tables are migrated but application writes are pending. Runtime lock was captured on macOS and container installation remains unverified.
+- Next: verify CI PostgreSQL integration, run Compose and browser smoke tests, obtain authorized Polyvore files, and run validation then the frozen test evaluation. Real research metrics and warmed API performance remain unavailable.

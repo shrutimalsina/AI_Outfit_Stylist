@@ -6,3 +6,5 @@ node_modules/
 dist/
 data/*/*
 .ipynb_checkpoints/
+.coverage
+.ruff_cache/

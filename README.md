@@ -69,3 +69,33 @@ Run validation during development. Use `--split test` for final reporting after 
 ```
 
 The report includes per-case outcomes, exclusions, Recall@1, Recall@3, MRR@3, and a 100-seed category-matched random comparison. See [the evaluation protocol](docs/evaluation-protocol.md) for interpretation.
+
+## Run the notebooks
+
+```sh
+.venv/bin/python -m pip install -r backend/requirements-app.txt
+.venv/bin/python -m scripts.create_fixture
+PATH="$PWD/.venv/bin:$PATH" .venv/bin/jupyter lab notebooks
+```
+
+Open the four notebooks in order. They default to an explicitly synthetic fixture. Set `STYLIST_MANIFEST`, `STYLIST_IMAGE_ROOT`, and `STYLIST_SNAPSHOT` to use real data. Set `STYLIST_SPLIT=test` only for the final evaluation.
+
+## Run the application locally
+
+Set `DATABASE_URL` to a reachable PostgreSQL 17 database. Set `STYLIST_IMAGE_ROOT` to the image directory, and set `SNAPSHOT_DIR` to the published filesystem artifact from extraction.
+
+```sh
+.venv/bin/alembic -c backend/alembic.ini upgrade head
+.venv/bin/python -m pipeline.publish_catalog data/processed/manifest.json "$SNAPSHOT_DIR"
+HF_HOME="$PWD/data/raw/hf-cache" .venv/bin/uvicorn backend.app.main:app --host 127.0.0.1
+```
+
+In a second terminal run `cd frontend && npm ci && npm run dev` and open the address printed by Vite. API documentation is at `http://127.0.0.1:8000/docs`. Restart the backend after publishing a different snapshot so it loads the new catalog.
+
+For a synthetic demonstration, generate the fixture above, publish its manifest and snapshot in place of the real ones, and set `STYLIST_IMAGE_ROOT=data/processed/fixture`.
+
+## Tests and containers
+
+Run `make test` and `make lint`. To start the Compose services, copy `.env.example` to `.env`, choose a local password, and run `docker compose up --build -d`. Publish the snapshot using paths under `/app/data` with `docker compose exec backend python -m pipeline.publish_catalog /app/data/processed/manifest.json /app/data/embeddings/<snapshot-id>`, then run `docker compose restart backend` and visit `http://localhost:5173`.
+
+The local Compose stack binds the UI to loopback. For public deployment configure HTTPS and secret management, preserve the database and catalog volume, and route requests through a reverse proxy with upload and rate limits. Back up PostgreSQL with `docker compose exec -T database pg_dump -U stylist -d stylist > stylist.sql` and back up the catalog directory separately.

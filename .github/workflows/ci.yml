@@ -1,0 +1,32 @@
+name: Checks
+on: [push, pull_request]
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: stylist
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:test@localhost:5432/stylist
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install -r backend/requirements-checkpoint.txt fastapi==0.116.1 python-multipart==0.0.20 httpx==0.28.1 sqlalchemy==2.0.43 alembic==1.16.5 'psycopg[binary]==3.2.10' pytest==8.4.2 ruff==0.12.12
+      - run: ruff check backend pipeline scripts
+      - run: python -m pytest backend/tests
+      - run: alembic -c backend/alembic.ini upgrade head
+      - run: |
+          snapshot=$(python -m scripts.create_fixture)
+          python -m pipeline.publish_catalog data/processed/fixture/manifest.json "$snapshot"
+      - run: npm ci && npm run build
+        working-directory: frontend

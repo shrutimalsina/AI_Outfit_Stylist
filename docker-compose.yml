@@ -1,0 +1,42 @@
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: stylist
+      POSTGRES_DB: stylist
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stylist -d stylist"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://stylist:${POSTGRES_PASSWORD}@database/stylist
+      STYLIST_IMAGE_ROOT: ${STYLIST_IMAGE_ROOT:-/app/data/raw/polyvore_outfits}
+      HF_HOME: /app/data/raw/hf-cache
+    volumes:
+      - ./data:/app/data
+    command: ["sh", "-c", "alembic -c backend/alembic.ini upgrade head && exec uvicorn backend.app.main:app --host 0.0.0.0"]
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/live')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+volumes:
+  postgres:

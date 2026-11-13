@@ -1,0 +1,24 @@
+:root { font-family: "DM Sans", system-ui, sans-serif; color: #262c25; background: #f4f2eb; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 1250px; padding: clamp(24px, 5vw, 72px); margin: auto; }
+header { border-bottom: 1px solid #b7baab; padding-bottom: 24px; margin-bottom: 28px; }
+h1, h2 { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+h1 { font-size: clamp(3rem, 8vw, 6rem); margin: 0; letter-spacing: -.045em; }
+h2 { font-size: 2.2rem; margin: 0 0 .7rem; }
+header p, article p { color: #535a50; }
+.layout { display: grid; grid-template-columns: minmax(230px, 310px) minmax(0, 1fr); gap: 30px; }
+form, section { padding: 24px; background: #fffdf7; border: 1px solid #d7d9cb; border-radius: 16px; }
+form { display: flex; flex-direction: column; align-self: start; gap: 12px; }
+label { font-weight: 650; }
+input, select, button { font: inherit; max-width: 100%; }
+select, button { min-height: 44px; border: 1px solid #aab1a4; border-radius: 8px; padding: 8px 12px; }
+button { color: white; background: #294d3e; cursor: pointer; }
+button:disabled { opacity: .6; cursor: default; }
+.preview, article img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #eeece1; border-radius: 8px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; }
+article { border: 1px solid #d7d9cb; border-radius: 12px; padding: 12px; }
+article h3 { margin: .65rem 0 0; }
+article p { font-size: .9rem; margin: .4rem 0; }
+[role="alert"] { color: #922d21; }
+@media (max-width: 700px) { .layout { grid-template-columns: 1fr; } }
