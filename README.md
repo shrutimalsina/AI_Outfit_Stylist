@@ -146,3 +146,14 @@ and start the frontend separately. See [deployment and benchmarking](docs/deploy
 
 See [production accounts and setup](docs/production-handoff.md) for the
 deployment prerequisites, private credential setup, and release handoff.
+
+### Reproduce the locked Python environment
+
+The container uses `backend/uv.lock`. For a local installation from the same
+lock, install uv and sync all extras into the repository's existing venv path:
+
+```sh
+python3.11 -m venv .venv
+.venv/bin/python -m pip install uv==0.8.22
+UV_PROJECT_ENVIRONMENT="$PWD/.venv" .venv/bin/uv sync --project backend --locked --all-extras --inexact
+```

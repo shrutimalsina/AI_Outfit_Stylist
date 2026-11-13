@@ -100,3 +100,9 @@
 
 - Created an ignored local .env with mode 0600. Release preflight verified all four fixture image checksums and ran offline CLIP inference. Ruff, ShellCheck and 18 local tests passed; the PostgreSQL test was skipped locally.
 - The first production-overlay CI smoke failed. Its detailed logs require GitHub authentication. Updated fixture creation to explicitly use the writable base Compose service, while publication and HTTP checks continue to use the production overlay. The revised smoke requires a fresh CI run.
+
+### Dependency reproducibility
+
+- In progress. Generating a cross-platform lock and checking the revised production smoke.
+
+- Added backend/uv.lock with CPU PyTorch on Linux and Windows and the native wheel on macOS. Docker builds from the locked runtime extras and bootstrap syncs all extras. Lock consistency and a clean macOS sync passed. The clean environment passed 18 tests with the dedicated PostgreSQL test skipped. The revised production smoke was still running at last check.

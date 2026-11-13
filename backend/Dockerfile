@@ -1,8 +1,11 @@
+FROM ghcr.io/astral-sh/uv:0.8.22 AS uv
 FROM python:3.11-slim
+COPY --from=uv /uv /usr/local/bin/uv
 WORKDIR /app
-COPY backend/requirements-runtime.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.8.0
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+ENV UV_PROJECT_ENVIRONMENT=/opt/stylist-venv
+ENV PATH="/opt/stylist-venv/bin:$PATH"
+COPY backend/pyproject.toml backend/uv.lock backend/
+RUN uv sync --project backend --locked --no-dev --extra app --extra ml
 COPY backend backend
 COPY pipeline pipeline
 COPY config config
