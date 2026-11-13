@@ -5,7 +5,7 @@ export default function OutfitCanvas({ original, matches, swap, canSwap }: {
   original: Piece; matches: Match[]; swap: (category: string) => void;
   canSwap: (category: string) => boolean;
 }) {
-  const [view, setView] = useState<"collage" | "grid" | "before">("collage");
+  const [view, setView] = useState<"grid" | "before">("grid");
   const [preview, setPreview] = useState<Piece>();
   const dialog = useRef<HTMLDialogElement>(null);
 
@@ -16,9 +16,9 @@ export default function OutfitCanvas({ original, matches, swap, canSwap }: {
 
   return <>
     <div className="view-switch" aria-label="Outfit view">
-      {(["collage", "grid", "before"] as const).map(mode =>
+      {(["grid", "before"] as const).map(mode =>
         <button key={mode} type="button" aria-pressed={view === mode} onClick={() => setView(mode)}>
-          {mode === "before" ? "Before" : mode === "collage" ? "After · Collage" : "Grid"}
+          {mode === "before" ? "Before" : "After · Grid"}
         </button>)}
     </div>
     <div className={`outfit-board ${view}`}>
