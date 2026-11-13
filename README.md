@@ -2,7 +2,7 @@
 
 Junior Seminar research question: Can category-aware retrieval using pretrained CLIP image embeddings recover hidden items from curated outfits more often than a category-matched random baseline?
 
-This repository currently contains the dataset preparation checkpoint. See [architecture](ARCHITECTURE.md) and the [project journal](PROJECT_JOURNAL.md) for implementation status.
+This repository currently contains dataset preparation and CLIP extraction. See [architecture](ARCHITECTURE.md) and the [project journal](PROJECT_JOURNAL.md) for implementation status.
 
 ## Reproduce the checkpoint
 
@@ -24,3 +24,15 @@ Place the unpacked release at `data/raw/polyvore_outfits` with `polyvore_item_me
 ```
 
 Seed 42 samples up to 3,000 training, 500 validation and 500 test outfits from the official item-disjoint split. The manifest records source hashes, selected items and all validation rejections encountered during sampling. An outfit with an invalid item is excluded as a unit. Valid images with unmapped categories retain the label `unknown` so the recommendation phase can exclude them from retrieval.
+
+## Extract CLIP embeddings
+
+Install the pinned ML checkpoint requirements, then run:
+
+```sh
+.venv/bin/python -m pip install -r backend/requirements-ml-checkpoint.txt
+HF_HOME="$PWD/data/raw/hf-cache" .venv/bin/python -m pipeline.extract_embeddings \
+  data/processed/manifest.json data/raw/polyvore_outfits data/embeddings
+```
+
+CPU is the default. Each completed row is cached so the same command can resume an interrupted run. A published snapshot contains the float32 NumPy matrix, the ordered item manifest, and checksums. Unknown categories are excluded from the snapshot.
