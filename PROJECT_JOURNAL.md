@@ -160,3 +160,5 @@
 - Polished the collage with an asymmetric layout, staggered image reveal, keyboard-accessible stylist notes and a compact scroll sequence in Fashion Today. Chromium verified the real catalog, all canvas views, note interactions, swaps, combination changes, rating, Lookbook, PNG download, reduced motion and no horizontal overflow at 390, 768 and 1440 pixels. The TypeScript production build and real-catalog Docker smoke passed. Pytest reported 19 passed and one PostgreSQL integration skip. The frontend has no configured lint script.
 
 - Restored the balanced four-card grid as the default and removed the asymmetric collage. Browser verified equal card widths at 1440, 768 and 390 px, real images, sequential reveal, reduced motion, keyboard notes, swaps, new combos, PNG export and Lookbook. TypeScript production build and real-catalog Docker smoke passed. Pytest: 19 passed, one PostgreSQL integration skip.
+
+- Prepared the instructor and peer review quickstart. A clean checkout passed locked setup, frontend build, 19 tests (one PostgreSQL skip), Docker fixture smoke, and a browser sample run with all four images.
