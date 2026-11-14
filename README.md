@@ -2,17 +2,49 @@
 
 Junior Seminar research question: Can category-aware retrieval using pretrained CLIP image embeddings recover hidden items from curated outfits more often than a category-matched random baseline?
 
-This repository currently contains dataset preparation and CLIP extraction. See [architecture](ARCHITECTURE.md) and the [project journal](PROJECT_JOURNAL.md) for implementation status.
+## Start here for peer review
 
-## Reproduce the checkpoint
+The repository includes the full app, locked Python and Node dependencies, and
+a generated demo catalog. The demo requires no dataset download or account.
 
-From the repository root:
+1. Install Python 3.11 and Node.js 22, then run:
 
-```sh
-python3.11 -m venv .venv
-.venv/bin/python -m pip install -r backend/requirements-checkpoint.txt
-.venv/bin/python -m unittest discover -s backend/tests/unit -v
-```
+   ```sh
+   git clone https://github.com/shrutimalsina/AI_Outfit_Stylist.git
+   cd AI_Outfit_Stylist
+   bash scripts/bootstrap.sh
+   bash scripts/run_demo.sh
+   ```
+
+2. In a second terminal in the same folder, run:
+
+   ```sh
+   npm --prefix frontend run dev -- --host 127.0.0.1
+   ```
+
+3. Open [the app](http://127.0.0.1:5173/). Under **Need Inspiration? Try a
+   Sample**, select **Top**, then click **Find My Style**. Take your screenshot
+   once **Your Styled Look** shows the original piece and all three results.
+   Keep both terminals open. If Vite chooses a different port, use its printed URL.
+
+The demo generates geometric clothing placeholders and synthetic embeddings to
+exercise the app. Sample selection works offline after installing dependencies.
+Uploading a photo downloads the pinned CLIP weights on first use. The fixture
+has one item per category, so ranked swaps require a richer catalog.
+
+With Docker Compose installed, run `bash scripts/smoke_compose.sh` for an
+automated check that builds the app, publishes the demo catalog and verifies
+the recommendation endpoint. It cleans up its temporary containers afterward.
+For the native test suite, run `bash scripts/run_tests.sh`. The PostgreSQL
+integration test requires a dedicated migrated database.
+
+Read the [final report](docs/final-report.md) for the real Polyvore results and
+[architecture](ARCHITECTURE.md) for the design. The **Original Polyvore metadata
+and Re-PolyVore images** section below reproduces the reported experiment from
+local dataset copies. Dataset images and model weights are downloaded or
+provided separately.
+
+## Alternative dataset release
 
 Use the [authors' Polyvore Outfits release](https://huggingface.co/datasets/mvasil/polyvore-outfits). The authors specify [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Cite Vasileva et al., [Learning Type-Aware Embeddings for Fashion Compatibility](https://arxiv.org/abs/1803.09196), ECCV 2018. This pipeline changes the release by sampling complete outfits, validating images and mapping category labels.
 
